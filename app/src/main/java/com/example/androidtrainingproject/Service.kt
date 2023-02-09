@@ -7,7 +7,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 object Service {
     private val client = OkHttpClient.Builder().build()
     val retrofit by lazy {
-        Retrofit.Builder().baseUrl("https://conduit.productionready.io/api/").addConverterFactory(
+        Retrofit.Builder()
+            .baseUrl("https://conduit.productionready.io/api/")
+            .addConverterFactory(
             GsonConverterFactory.create()).client(client).build()
     }
     val logininterface= retrofit.create(MyInterface::class.java)
