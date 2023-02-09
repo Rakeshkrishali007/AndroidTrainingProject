@@ -1,5 +1,6 @@
 package com.example.androidtrainingproject
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,76 +14,62 @@ import retrofit2.Callback
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding:ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     lateinit var email:String
     lateinit var password:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         getInfo()
-
     }
 
     private fun getInfo() {
-
-        email=binding.gmail.text.toString()
-        password=binding.password.text.toString()
         binding.press.setOnClickListener()
         {
 
-
-           Toast.makeText(this,"${email.length}",Toast.LENGTH_SHORT).show()
-            Toast.makeText(this,"${password.length}",Toast.LENGTH_SHORT).show()
-            if(email.isEmpty())
-            {
-                Toast.makeText(this,"Email required",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            email=binding.gmail.text.toString()
+            password=binding.password.text.toString()
+            if (email.isEmpty()) {
+                Toast.makeText(this, "email required", Toast.LENGTH_SHORT).show()
             }
-
             else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
             {
                 Toast.makeText(this,"Invalid email",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
             }
-            if(password.isEmpty())
+            if (password.isEmpty()) {
+                Toast.makeText(this, "password required", Toast.LENGTH_SHORT).show()
+            }
+            else if(password.length!=9)
             {
-                Toast.makeText(this,"Password required",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                Toast.makeText(this,"Maximum password length 9",Toast.LENGTH_SHORT).show()
             }
-            else if(password.length>6)
-            {
-                Toast.makeText(this,"Enter 6 digit password",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-                    Service.logininterface.getData(LogInRequest(User(email, password)))
-                        .enqueue(object : Callback<LogInResponse> {
-                            override fun onResponse(
-                                call: Call<LogInResponse>,
-                                response: retrofit2.Response<LogInResponse>
-                            ) {
-                                Log.d("success", "cool")
-                                Toast.makeText(this@MainActivity, "success", Toast.LENGTH_SHORT)
-                                    .show()
-
-                            }
-
-                            override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
-
-                                Log.e("error", "bad")
-                                Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        }
-                        )
+            Toast.makeText(this,"${password.length}",Toast.LENGTH_SHORT).show()
+            Service.logininterface.getData(LogInRequest(User(email, password)))
+                .enqueue(object : Callback<LogInResponse> {
+                    override fun onResponse(
+                        call: Call<LogInResponse>,
+                        response: retrofit2.Response<LogInResponse>
+                    ) {
+                        Log.d("success", "${response.body()?.user?.token}")
+                        Log.d("result", "${response.body()?.user?.email}")
+                        Toast.makeText(this@MainActivity, "${response.body()?.user?.token}", Toast.LENGTH_SHORT).show()
 
 
+                    }
+
+                    override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
+
+                        Log.e("error", "bad")
+                        Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+                )
         }
 
     }
-
-
-
-
 }
+
+
