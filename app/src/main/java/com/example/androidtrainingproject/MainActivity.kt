@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.Toast
 import com.example.androidtrainingproject.databinding.ActivityMainBinding
 import com.example.androidtrainingproject.model.request.LogInRequest
@@ -32,14 +33,16 @@ class MainActivity : AppCompatActivity() {
 
         email = "var123@gmail.com"
         password = "123123123"
+      /*  email=binding.gmail.text.toString()
+        password=binding.password.text.toString()*/
 
 
         binding.press.setOnClickListener()
         {
 
 
-
-    /*        email=binding.gmail.text.toString()
+/*
+            email=binding.gmail.text.toString()
             password=binding.password.text.toString()
 
            Toast.makeText(this,"${email.length}",Toast.LENGTH_SHORT).show()
@@ -59,9 +62,9 @@ class MainActivity : AppCompatActivity() {
             else if(password.length<6)
             {
                 Toast.makeText(this,"Maximum password length 9",Toast.LENGTH_SHORT).show()
-            }
+            }*/
 
-     */
+
                     RetrofitClient.logininterface.getData(LogInRequest(LoginRequestParams(email, password)))
                         .enqueue(object : Callback<LogInResponse> {
                             override fun onResponse(
