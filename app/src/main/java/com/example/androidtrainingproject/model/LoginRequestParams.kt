@@ -1,9 +1,9 @@
-package com.example.androidtrainingproject
+package com.example.androidtrainingproject.model
 
 
 import com.google.gson.annotations.SerializedName
 
-data class User(
+data class LoginRequestParams(
     @SerializedName("email")
     val email: String,
     @SerializedName("password")
