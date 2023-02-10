@@ -4,16 +4,17 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import com.example.androidtrainingproject.databinding.ActivityMainBinding
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.androidtrainingproject.model.request.LogInRequest
+import com.example.androidtrainingproject.model.response.LogInResponse
+import com.example.androidtrainingproject.model.LoginRequestParams
+
 import retrofit2.Call
 import retrofit2.Callback
 
+
+private const val TAG = "MainActivity_d"
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -28,14 +29,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getInfo() {
+
+        email = "var123@gmail.com"
+        password = "123123123"
+
+
         binding.press.setOnClickListener()
         {
 
-            email = binding.gmail.text.toString()
-            password = binding.password.text.toString()
 
-            /*        if (email.isEmpty()) {
-                Toast.makeText(this, "email required", Toast.LENGTH_SHORT).show()
+
+    /*        email=binding.gmail.text.toString()
+            password=binding.password.text.toString()
+
+           Toast.makeText(this,"${email.length}",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"${password.length}",Toast.LENGTH_SHORT).show()
+            if(email.isEmpty())
+            {
+                Toast.makeText(this,"Email required",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
             {
@@ -48,30 +60,17 @@ class MainActivity : AppCompatActivity() {
             {
                 Toast.makeText(this,"Maximum password length 9",Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(this,"${password.length}",Toast.LENGTH_SHORT).show()
-            */
 
-            GlobalScope.launch {
+     */
+                    RetrofitClient.logininterface.getData(LogInRequest(LoginRequestParams(email, password)))
+                        .enqueue(object : Callback<LogInResponse> {
+                            override fun onResponse(
+                                call: Call<LogInResponse>,
+                                response: retrofit2.Response<LogInResponse>
+                            ) {
+                                Log.d(TAG, "LoginData: " + response.body().toString())
 
-
-                Service.logininterface.getData(User(email, password))
-                    .enqueue(object : Callback<LogInResponse> {
-                        override fun onResponse(
-                            call: Call<LogInResponse>,
-                            response: retrofit2.Response<LogInResponse>
-                        ) {
-                            Log.d("success", "${response.body()?.user?.token}")
-                            Log.d("result", "${response.body()?.user?.email}")
-
-                            Toast.makeText(
-                                this@MainActivity,
-                                "${response.body()?.user?.token}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-
-                        }
-
+                            }
                         override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
 
                             Log.e("error", "bad")
@@ -83,7 +82,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-    }
 
 
 }

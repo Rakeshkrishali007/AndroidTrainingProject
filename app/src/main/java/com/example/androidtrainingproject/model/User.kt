@@ -1,11 +1,11 @@
-package com.example.androidtrainingproject
+package com.example.androidtrainingproject.model
 
 
 import com.google.gson.annotations.SerializedName
 
-data class UserX(
+data class User(
     @SerializedName("bio")
-    val bio: Any,
+    val bio: String,
     @SerializedName("email")
     val email: String,
     @SerializedName("image")
