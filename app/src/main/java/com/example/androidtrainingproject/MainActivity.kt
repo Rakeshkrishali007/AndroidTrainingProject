@@ -29,13 +29,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun getInfo() {
 
-
+        email = "var123@gmail.com"
+        password = "123123123"
 
         binding.press.setOnClickListener()
         {
 
-            email = "var123@gmail.com"
-            password = "123123123"
+
 
     /*        email=binding.gmail.text.toString()
             password=binding.password.text.toString()
