@@ -23,9 +23,10 @@ class DashBoard : AppCompatActivity() {
         val em=intent.getStringExtra("gmail")
         val  userBio=intent.getStringExtra("userbio")
         email.text=em.toString()
-        userBio?.let {
-            onVisibility(aboutHeading)
-            onVisibility2(bio)
+        if(userBio==null)
+        {
+            onVisibility(bio)
+            onVisibility2(aboutHeading)
         }
         bio.text=userBio.toString()
         Glide.with(this).load(img).into(image);
