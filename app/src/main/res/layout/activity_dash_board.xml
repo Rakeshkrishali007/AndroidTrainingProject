@@ -9,8 +9,10 @@
     tools:context=".DashBoard">
 
 
+
+
     <LinearLayout
-        android:layout_width="410dp"
+        android:layout_width="match_parent"
         android:id="@+id/l1"
         android:layout_height="300dp"
         android:background="#263646"
@@ -106,7 +108,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:text="About Me"
             android:textColor="@color/black"
@@ -116,7 +118,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="2dp"
             android:text="I'm Walter. I like to travel and be out
 with my friends. On my free time i love to play , read books and do some
@@ -135,9 +137,9 @@ artistic painting."
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:text="My previous location"
+            android:text="My previous locations"
             android:textColor="@color/black"
             android:textSize="30dp"
             android:textStyle="bold" />
@@ -152,7 +154,7 @@ artistic painting."
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="2dp"
                 android:text="Berlin"
                 android:textSize="20sp" />
@@ -161,7 +163,7 @@ artistic painting."
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="2dp"
                 android:text="Visited Berlin 1 time"
                 android:textSize="20sp" />
@@ -173,7 +175,7 @@ artistic painting."
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:text="Johannesburg"
                 android:textSize="20sp" />
@@ -183,7 +185,7 @@ artistic painting."
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="2dp"
                 android:text="Visited Johannesburg 1 time"
                 android:textSize="20sp" />
@@ -192,7 +194,7 @@ artistic painting."
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:text="London"
                 android:textSize="20sp" />
@@ -201,7 +203,7 @@ artistic painting."
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="2dp"
                 android:text="Visited London 1 time"
                 android:textSize="20sp" />
@@ -219,8 +221,8 @@ artistic painting."
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
                 android:text="Options"
                 android:textStyle="bold"
                 android:textColor="@color/black"
