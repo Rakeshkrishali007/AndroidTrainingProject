@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/l1"
-        android:layout_height="300dp"
+        android:layout_height="320dp"
         android:background="#263646"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,8 +35,9 @@
 
             <ImageView
                 android:layout_width="150dp"
+                android:id="@+id/profile_pic"
                 android:layout_height="150dp"
-                android:src="@drawable/img_1" />
+                />
         </androidx.cardview.widget.CardView>
 
 
@@ -59,6 +60,15 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/email"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+
+                android:textColor="@color/white"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -109,6 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:id="@+id/aboutHeading"
             android:layout_marginTop="10dp"
             android:text="About Me"
             android:textColor="@color/black"
@@ -116,22 +127,21 @@
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/about"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="2dp"
-            android:text="I'm Walter. I like to travel and be out
-with my friends. On my free time i love to play , read books and do some
-artistic painting."
+
             android:textSize="20sp" />
 
 
         <View
-            android:layout_width="360dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#4835384A"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="12dp"
+
             />
 
         <TextView
@@ -210,11 +220,10 @@ artistic painting."
 
 
             <View
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#4835384A"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="12dp"
                 />
 
 

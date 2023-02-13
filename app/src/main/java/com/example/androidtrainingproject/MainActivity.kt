@@ -42,17 +42,22 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this,"Email required",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            else if(Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+
+
             {
                 Toast.makeText(this,"Invalid email",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             if (password.isEmpty()) {
                 Toast.makeText(this, "password required", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             else if(password.length<6)
             {
                 Toast.makeText(this,"password length must be greater then 8" +
                         "",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
 
@@ -62,11 +67,12 @@ class MainActivity : AppCompatActivity() {
                                 call: Call<LogInResponse>,
                                 response: retrofit2.Response<LogInResponse>
                             ) {
-                                val intent= Intent(this@MainActivity,DashBoard::class.java)
+                            val intent= Intent(this@MainActivity,DashBoard::class.java)
                                 startActivity(intent);
-/*
                                 val username= response.body()?.user?.username
                                 val image= response.body()?.user?.image
+                                val eml=response.body()?.user?.email
+                                val bio=response.body()?.user?.bio
 
 
                                 if(username=="var123"&&password=="123123123")
@@ -74,12 +80,15 @@ class MainActivity : AppCompatActivity() {
                                     val intent= Intent(this@MainActivity,DashBoard::class.java)
                                     intent.putExtra("user",username)
                                     intent.putExtra("image",image)
+                                    intent.putExtra("gmail",eml)
+                                    intent.putExtra("userbio",bio)
                                     startActivity(intent)
                                 }
                                 else{
                                     Toast.makeText(this@MainActivity,"Invalid user",Toast.LENGTH_SHORT).show()
+
                                 }
-*/
+
 
 
 
