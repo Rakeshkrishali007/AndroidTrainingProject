@@ -1,6 +1,7 @@
 package com.example.androidtrainingproject
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +19,7 @@ import retrofit2.Callback
 private const val TAG = "MainActivity_d"
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    lateinit var binding:ActivityMainBinding
     lateinit var email: String
     lateinit var password: String
 
@@ -31,22 +32,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun getInfo() {
 
-        email = "var123@gmail.com"
-        password = "123123123"
-      /*  email=binding.gmail.text.toString()
-        password=binding.password.text.toString()*/
-
-
         binding.press.setOnClickListener()
         {
 
-
-/*
             email=binding.gmail.text.toString()
             password=binding.password.text.toString()
-
-           Toast.makeText(this,"${email.length}",Toast.LENGTH_SHORT).show()
-            Toast.makeText(this,"${password.length}",Toast.LENGTH_SHORT).show()
             if(email.isEmpty())
             {
                 Toast.makeText(this,"Email required",Toast.LENGTH_SHORT).show()
@@ -61,8 +51,9 @@ class MainActivity : AppCompatActivity() {
             }
             else if(password.length<6)
             {
-                Toast.makeText(this,"Maximum password length 9",Toast.LENGTH_SHORT).show()
-            }*/
+                Toast.makeText(this,"password length must be greater then 8" +
+                        "",Toast.LENGTH_SHORT).show()
+            }
 
 
                     RetrofitClient.logininterface.getData(LogInRequest(LoginRequestParams(email, password)))
@@ -71,7 +62,26 @@ class MainActivity : AppCompatActivity() {
                                 call: Call<LogInResponse>,
                                 response: retrofit2.Response<LogInResponse>
                             ) {
-                                Log.d(TAG, "LoginData: " + response.body().toString())
+                                val intent= Intent(this@MainActivity,DashBoard::class.java)
+                                startActivity(intent);
+/*
+                                val username= response.body()?.user?.username
+                                val image= response.body()?.user?.image
+
+
+                                if(username=="var123"&&password=="123123123")
+                                {
+                                    val intent= Intent(this@MainActivity,DashBoard::class.java)
+                                    intent.putExtra("user",username)
+                                    intent.putExtra("image",image)
+                                    startActivity(intent)
+                                }
+                                else{
+                                    Toast.makeText(this@MainActivity,"Invalid user",Toast.LENGTH_SHORT).show()
+                                }
+*/
+
+
 
                             }
                         override fun onFailure(call: Call<LogInResponse>, t: Throwable) {

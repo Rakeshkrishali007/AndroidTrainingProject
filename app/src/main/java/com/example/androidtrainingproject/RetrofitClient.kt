@@ -21,19 +21,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 * */
 object RetrofitClient {
     val baseUrl = "https://conduit.productionready.io/api/"
-
+/*
     var mHttmLogginInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     val mOkHttpClient = OkHttpClient
         .Builder()
         .addInterceptor(mHttmLogginInterceptor)
-        .build()
+        .build()*/
 
-    val retrofit by lazy {
+    /*val retrofit by lazy {
         Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(mOkHttpClient)
+           // .client(mOkHttpClient)
             .build()
-    }
+    }*/
+    val retrofit=Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build()
     val logininterface= retrofit.create(MyInterface::class.java)
 }
