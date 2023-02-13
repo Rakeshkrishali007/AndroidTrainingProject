@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="410dp"
         android:layout_height="333dp"
-        android:background="#191C2B"
+        android:background="#263646"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,6 +84,13 @@
 
                 />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
