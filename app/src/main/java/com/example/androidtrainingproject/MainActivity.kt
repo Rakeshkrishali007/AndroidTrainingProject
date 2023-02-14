@@ -17,9 +17,10 @@ import retrofit2.Callback
 
 
 private const val TAG = "MainActivity_d"
+@SuppressLint("StaticFieldLeak")
+lateinit var binding:ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding:ActivityMainBinding
     lateinit var email: String
     lateinit var password: String
 
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.press.setOnClickListener()
         {
 
-            email = binding.etGmail.text.toString()
+        //    email = binding.etGmail.text.toString()
             password = binding.etPassword.text.toString()
             /*
             if(emailChecked() & passwordCchecked()){
@@ -45,9 +46,10 @@ class MainActivity : AppCompatActivity() {
 
 
             if (email.isEmpty()) {
+
                 Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.etGmail.text.toString()).matches()) {
                 Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             } else if (password.isEmpty()) {
