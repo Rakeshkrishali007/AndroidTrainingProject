@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidTrainingProject</string>
+    <item name="aboutHeading" type="id">heading</item>
 </resources>

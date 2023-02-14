@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this,"Email required",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            else if(Patterns.EMAIL_ADDRESS.matcher(email).matches())
 
 
             {

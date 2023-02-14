@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AndroidTrainingProject"
         tools:targetApi="31">
         <activity
+            android:name=".test"
+            android:exported="false" />
+        <activity
             android:name=".DashBoard"
             android:exported="false" />
         <activity
