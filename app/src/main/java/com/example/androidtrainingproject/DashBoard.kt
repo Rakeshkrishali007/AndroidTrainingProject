@@ -7,37 +7,34 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 
 class DashBoard : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_dash_board)
         val email=findViewById<TextView>(R.id.email)
         val image=findViewById<ImageView>(R.id.profile_pic)
         val bio=findViewById<TextView>(R.id.about)
-        val aboutHeading=findViewById<TextView>(R.id.aboutHeading)
+        val aboutHeading=findViewById<TextView>(R.id.txt_bio_head)
         val img=intent.getStringExtra("image")
         val em=intent.getStringExtra("gmail")
         val  userBio=intent.getStringExtra("userbio")
         email.text=em.toString()
-        if(userBio==null)
-        {
+
+        if (userBio == null) {
             onVisibility(bio)
-            onVisibility2(aboutHeading)
+            onVisibility(aboutHeading)
+        } else {
+            bio.text=userBio.toString()
         }
-        bio.text=userBio.toString()
-        Glide.with(this).load(img).into(image);
+//        Glide.with(this).load(img).into(image);
 
 
     }
 
-    private fun onVisibility2(view:View) {
-
-        view.setVisibility(View.INVISIBLE)
-    }
 
     private fun onVisibility(view: View) {
         view.setVisibility(View.INVISIBLE)
