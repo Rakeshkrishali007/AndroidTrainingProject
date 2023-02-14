@@ -7,35 +7,30 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.example.androidtrainingproject.databinding.ActivityDashBoardBinding
+import com.example.androidtrainingproject.databinding.ActivityMainBinding
 
 class DashBoard : AppCompatActivity() {
+
+    var binding2: ActivityDashBoardBinding = ActivityDashBoardBinding.inflate(layoutInflater)
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_dash_board)
-        val email=findViewById<TextView>(R.id.email)
-        val image=findViewById<ImageView>(R.id.profile_pic)
-        val bio=findViewById<TextView>(R.id.about)
-        val aboutHeading=findViewById<TextView>(R.id.txt_bio_head)
-        val img=intent.getStringExtra("image")
+        setContentView(binding2.root)
         val em=intent.getStringExtra("gmail")
+        val img=intent.getStringExtra("image")
         val  userBio=intent.getStringExtra("userbio")
-        email.text=em.toString()
-
-        if (userBio == null) {
-            onVisibility(bio)
-            onVisibility(aboutHeading)
-        } else {
-            bio.text=userBio.toString()
+        binding2.etEmail.text=em.toString()
+        if(userBio==null)
+        {
+            onVisibility(binding2.txtBioHead)
+            onVisibility(binding2.txtBioSubheading)
         }
-//        Glide.with(this).load(img).into(image);
-
+        Glide.with(this).load(img).into(binding2.imgProfilePic);
 
     }
-
-
     private fun onVisibility(view: View) {
         view.setVisibility(View.INVISIBLE)
 

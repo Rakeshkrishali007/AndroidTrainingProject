@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getInfo()
+        Log.d("success","main")
     }
 
     private fun getInfo() {
@@ -35,63 +36,70 @@ class MainActivity : AppCompatActivity() {
         binding.press.setOnClickListener()
         {
 
-            email=binding.gmail.text.toString()
-            password=binding.password.text.toString()
-            if(email.isEmpty())
-            {
-                Toast.makeText(this,"Email required",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            email = binding.etGmail.text.toString()
+            password = binding.etPassword.text.toString()
+            /*
+            if(emailChecked() & passwordCchecked()){
 
-            {
-                Toast.makeText(this,"Invalid email",Toast.LENGTH_SHORT).show()
+        }*/
+
+
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            }
-            if (password.isEmpty()) {
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            } else if (password.isEmpty()) {
                 Toast.makeText(this, "password required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            }
-            else if(password.length<6)
-            {
-                Toast.makeText(this,"password length must be greater then 8" +
-                        "",Toast.LENGTH_SHORT).show()
+            } else if (password.length < 6) {
+                Toast.makeText(
+                    this, "password length must be greater then 8" +
+                            "", Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
-            }
+            } else {
+                RetrofitClient.logininterface.getData(
+                    LogInRequest(
+                        LoginRequestParams(
+                            email,
+                            password
+                        )
+                    )
+                )
+                    .enqueue(object : Callback<LogInResponse> {
+                        @SuppressLint("SuspiciousIndentation")
+                        override fun onResponse(
+                            call: Call<LogInResponse>,
+                            response: retrofit2.Response<LogInResponse>
+                        ) {
+                            val intent = Intent(this@MainActivity, DashBoard::class.java)
+                            startActivity(intent);
+                            val username = response.body()?.user?.username
+                            val image = response.body()?.user?.image
+                            val eml = response.body()?.user?.email
+                            val bio = response.body()?.user?.bio
 
 
-                    RetrofitClient.logininterface.getData(LogInRequest(LoginRequestParams(email, password)))
-                        .enqueue(object : Callback<LogInResponse> {
-                            override fun onResponse(
-                                call: Call<LogInResponse>,
-                                response: retrofit2.Response<LogInResponse>
-                            ) {
-                            val intent= Intent(this@MainActivity,DashBoard::class.java)
-                                startActivity(intent);
-                                val username= response.body()?.user?.username
-                                val image= response.body()?.user?.image
-                                val eml=response.body()?.user?.email
-                                val bio=response.body()?.user?.bio
-
-
-                                if(username=="var123"&&password=="123123123")
-                                {
-                                    val intent= Intent(this@MainActivity,DashBoard::class.java)
-                                    intent.putExtra("user",username)
-                                    intent.putExtra("image",image)
-                                    intent.putExtra("gmail",eml)
-                                    intent.putExtra("userbio",bio)
-                                    startActivity(intent)
-                                }
-                                else{
-                                    Toast.makeText(this@MainActivity,"Invalid user",Toast.LENGTH_SHORT).show()
-
-                                }
-
-
-
+                            if (username == "var123" && password == "123123123") {
+                                val intent = Intent(this@MainActivity, DashBoard::class.java)
+                                intent.putExtra("image", image)
+                                intent.putExtra("gmail", eml)
+                                intent.putExtra("userbio", bio)
+                                startActivity(intent)
+                            } else {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Invalid user",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 
                             }
+
+
+                        }
+
                         override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
 
                             Log.e("error", "bad")
@@ -101,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     )
             }
+        }
 
         }
 
