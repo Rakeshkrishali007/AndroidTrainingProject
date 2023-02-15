@@ -30,11 +30,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getInfo()
-<<<<<<< HEAD
         Log.d("success","main")
-=======
         Log.d("test","main")
->>>>>>> develop
     }
 
     private fun getInfo() {
@@ -45,12 +42,7 @@ class MainActivity : AppCompatActivity() {
            email = binding.etGmail.text.toString()
             password = binding.etPassword.text.toString()
 
-<<<<<<< HEAD
 
-            if(email.isEmpty())
-            {
-
-=======
             Log.d("rakesh","${email}")
             if (email.isEmpty()) {
 
@@ -67,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             {
                 Toast.makeText(this@MainActivity,"invalid email", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
->>>>>>> develop
             }
             else {
                 RetrofitClient.logininterface.getData(
