@@ -11,6 +11,7 @@ import com.example.androidtrainingproject.databinding.ActivityMainBinding
 import com.example.androidtrainingproject.model.request.LogInRequest
 import com.example.androidtrainingproject.model.response.LogInResponse
 import com.example.androidtrainingproject.model.LoginRequestParams
+import com.example.androidtrainingproject.model.User
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -82,9 +83,13 @@ class MainActivity : AppCompatActivity() {
                                 val image = response.body()?.user?.image
                                 val eml = response.body()?.user?.email
                                 val bio = response.body()?.user?.bio
-                                intent.putExtra("image", image)
+                                val token =response.body()?.user?.token
+                               /* intent.putExtra("image", image)
                                 intent.putExtra("gmail", eml)
-                                intent.putExtra("userbio", bio)
+                                intent.putExtra("userbio", bio)*/
+                                startActivity(intent)
+                                val user= User(bio.toString(),eml.toString(),image.toString(),token.toString(),username.toString())
+                                intent.putExtra("USER",user)
                                 startActivity(intent)
 
                             }
