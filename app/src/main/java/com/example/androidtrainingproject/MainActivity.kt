@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
-
             {
                 Toast.makeText(this,"Invalid email",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

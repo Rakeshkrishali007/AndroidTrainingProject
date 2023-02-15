@@ -121,6 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
+            android:visibility="gone"
             android:text="About Me"
             android:textColor="@color/black"
             android:textSize="30dp"
@@ -129,6 +130,7 @@
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/about"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="2dp"
