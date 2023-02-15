@@ -11,6 +11,7 @@ import com.example.androidtrainingproject.databinding.ActivityDashBoardBinding
 
 class DashBoard : AppCompatActivity() {
 
+<<<<<<< HEAD
     lateinit var binding:ActivityDashBoardBinding
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +28,25 @@ class DashBoard : AppCompatActivity() {
 
 
     }
+=======
+    lateinit var binding2: ActivityDashBoardBinding
+
+        @SuppressLint("MissingInflatedId")
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            binding2 = ActivityDashBoardBinding.inflate(layoutInflater)
+            setContentView(binding2.root)
+            val em = intent.getStringExtra("gmail")
+            val img = intent.getStringExtra("image")
+            val userBio = intent.getStringExtra("userbio")
+              binding2.etEmail.text=em.toString()
+              if(userBio==null)
+              {
+                  onVisibility(binding2.txtBioHead)
+                  onVisibility(binding2.txtBioSubheading)
+              }
+              Glide.with(this).load(img).into(binding2.imgProfilePic);
+>>>>>>> develop
 
 
     private fun onVisibility(view: View) {

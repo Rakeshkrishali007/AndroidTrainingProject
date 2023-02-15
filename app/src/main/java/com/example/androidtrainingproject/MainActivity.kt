@@ -18,9 +18,10 @@ import retrofit2.Callback
 
 private const val TAG = "MainActivity_d"
 @SuppressLint("StaticFieldLeak")
-lateinit var binding:ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
+    lateinit var binding:ActivityMainBinding
     lateinit var email: String
     lateinit var password: String
 
@@ -29,7 +30,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getInfo()
+<<<<<<< HEAD
         Log.d("success","main")
+=======
+        Log.d("test","main")
+>>>>>>> develop
     }
 
     private fun getInfo() {
@@ -40,10 +45,29 @@ class MainActivity : AppCompatActivity() {
            email = binding.etGmail.text.toString()
             password = binding.etPassword.text.toString()
 
+<<<<<<< HEAD
 
             if(email.isEmpty())
             {
 
+=======
+            Log.d("rakesh","${email}")
+            if (email.isEmpty()) {
+
+                Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            else if(password.isEmpty())
+            {
+                Toast.makeText(this@MainActivity,"password required",Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            else if(!Patterns.EMAIL_ADDRESS.matcher(email.toString().trim()).matches())
+            {
+                Toast.makeText(this@MainActivity,"invalid email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+>>>>>>> develop
             }
             else {
                 RetrofitClient.logininterface.getData(
@@ -62,11 +86,11 @@ class MainActivity : AppCompatActivity() {
                         ) {
                             if(response.code().toString().equals("200"))
                             {
+                                val intent = Intent(this@MainActivity,DashBoard::class.java)
                                 val username = response.body()?.user?.username
                                 val image = response.body()?.user?.image
                                 val eml = response.body()?.user?.email
                                 val bio = response.body()?.user?.bio
-                                val intent = Intent(this@MainActivity, DashBoard::class.java)
                                 intent.putExtra("image", image)
                                 intent.putExtra("gmail", eml)
                                 intent.putExtra("userbio", bio)
@@ -77,7 +101,6 @@ class MainActivity : AppCompatActivity() {
                             {
                                 Toast.makeText(this@MainActivity,"Invalid user",Toast.LENGTH_LONG).show()
                             }
-
                         }
 
                         override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
