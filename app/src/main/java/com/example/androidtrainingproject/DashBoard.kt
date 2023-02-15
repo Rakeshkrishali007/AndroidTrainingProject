@@ -15,8 +15,8 @@ class DashBoard : AppCompatActivity() {
 
         setContentView(R.layout.activity_dash_board)
 //        val email=findViewById<TextView>(R.id.txt_email)
-        val image=findViewById<ImageView>(R.id.profile_pic)
-        val bio=findViewById<TextView>(R.id.about)
+//        val image=findViewById<ImageView>(R.id.profile_pic)
+        val bio=findViewById<TextView>(R.id.txt_bio_subheading)
         val aboutHeading=findViewById<TextView>(R.id.txt_bio_head)
         val img=intent.getStringExtra("image")
         val em=intent.getStringExtra("gmail")
