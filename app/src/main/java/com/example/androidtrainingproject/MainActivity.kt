@@ -41,9 +41,22 @@ class MainActivity : AppCompatActivity() {
            email = binding.etGmail.text.toString()
             password = binding.etPassword.text.toString()
 
+            Log.d("rakesh","${email}")
             if (email.isEmpty()) {
 
                 Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            else if(password.isEmpty())
+            {
+                Toast.makeText(this@MainActivity,"password required",Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            else if(!Patterns.EMAIL_ADDRESS.matcher(email.toString().trim()).matches())
+            {
+                Toast.makeText(this@MainActivity,"invalid email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             else {
                 RetrofitClient.logininterface.getData(
