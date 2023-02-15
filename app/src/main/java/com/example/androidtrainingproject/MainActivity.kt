@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getInfo()
+        Log.d("test","main")
     }
 
     private fun getInfo() {
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                             call: Call<LogInResponse>,
                             response: retrofit2.Response<LogInResponse>
                         ) {
-                            if(response.code().equals("200"))
+                            if(response.code().toString().equals("200"))
                             {
                                 val intent = Intent(this@MainActivity,DashBoard::class.java)
                                 val username = response.body()?.user?.username
@@ -71,6 +72,10 @@ class MainActivity : AppCompatActivity() {
                                 intent.putExtra("userbio", bio)
                                 startActivity(intent)
 
+                            }
+                            else
+                            {
+                                Toast.makeText(this@MainActivity,"Invalid user",Toast.LENGTH_LONG).show()
                             }
                         }
 
