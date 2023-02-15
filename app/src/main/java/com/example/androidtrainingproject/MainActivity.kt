@@ -37,19 +37,14 @@ class MainActivity : AppCompatActivity() {
         binding.press.setOnClickListener()
         {
 
-        //    email = binding.etGmail.text.toString()
+           email = binding.etGmail.text.toString()
             password = binding.etPassword.text.toString()
-            /*
-            if(emailChecked() & passwordCchecked()){
-
-        }*/
-
 
             if (email.isEmpty()) {
 
                 Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.etGmail.text.toString()).matches()) {
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             } else if (password.isEmpty()) {
