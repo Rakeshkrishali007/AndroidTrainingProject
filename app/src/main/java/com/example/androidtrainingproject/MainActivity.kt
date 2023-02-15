@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getInfo()
-        Log.d("success","main")
+        Log.d("success","master")
     }
 
     private fun getInfo() {
@@ -72,29 +72,23 @@ class MainActivity : AppCompatActivity() {
                             call: Call<LogInResponse>,
                             response: retrofit2.Response<LogInResponse>
                         ) {
-                            val intent = Intent(this@MainActivity, DashBoard::class.java)
-                            startActivity(intent);
-                            val username = response.body()?.user?.username
-                            val image = response.body()?.user?.image
-                            val eml = response.body()?.user?.email
-                            val bio = response.body()?.user?.bio
-
-
-                            if (username == "var123" && password == "123123123") {
+                            if(response.code().equals("200"))
+                            {
+                                val username = response.body()?.user?.username
+                                val image = response.body()?.user?.image
+                                val eml = response.body()?.user?.email
+                                val bio = response.body()?.user?.bio
                                 val intent = Intent(this@MainActivity, DashBoard::class.java)
                                 intent.putExtra("image", image)
                                 intent.putExtra("gmail", eml)
                                 intent.putExtra("userbio", bio)
                                 startActivity(intent)
-                            } else {
-                                Toast.makeText(
-                                    this@MainActivity,
-                                    "Invalid user",
-                                    Toast.LENGTH_SHORT
-                                ).show()
 
                             }
-
+                            else
+                            {
+                                Toast.makeText(this@MainActivity,"Invalid user",Toast.LENGTH_LONG).show()
+                            }
 
                         }
 
