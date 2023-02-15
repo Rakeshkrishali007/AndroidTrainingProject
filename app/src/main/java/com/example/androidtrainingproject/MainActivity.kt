@@ -17,8 +17,9 @@ import retrofit2.Callback
 
 
 private const val TAG = "MainActivity_d"
+
 @SuppressLint("StaticFieldLeak")
-lateinit var binding:ActivityMainBinding
+lateinit var binding: ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var email: String
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getInfo()
-        Log.d("success","main")
+        Log.d("success", "main")
     }
 
     private fun getInfo() {
@@ -37,27 +38,17 @@ class MainActivity : AppCompatActivity() {
         binding.press.setOnClickListener()
         {
 
-           email = binding.etGmail.text.toString()
+            email = binding.etGmail.text.toString()
             password = binding.etPassword.text.toString()
 
-            if (email.isEmpty()) {
 
-                Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show()
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Email required", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             } else if (password.isEmpty()) {
-                Toast.makeText(this, "password required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Password required", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
-            } else if (password.length < 6) {
-                Toast.makeText(
-                    this, "password length must be greater then 8" +
-                            "", Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
-            else {
+            } else {
                 RetrofitClient.logininterface.getData(
                     LogInRequest(
                         LoginRequestParams(
@@ -72,28 +63,36 @@ class MainActivity : AppCompatActivity() {
                             call: Call<LogInResponse>,
                             response: retrofit2.Response<LogInResponse>
                         ) {
-                            val intent = Intent(this@MainActivity, DashBoard::class.java)
-                            startActivity(intent);
-                            val username = response.body()?.user?.username
-                            val image = response.body()?.user?.image
-                            val eml = response.body()?.user?.email
-                            val bio = response.body()?.user?.bio
-
-
-                            if (username == "var123" && password == "123123123") {
+                            // val intent = Intent(this@MainActivity, DashBoard::class.java)
+                            //startActivity(intent);
+                            if (response.code().equals("200")) {
+                                val username = response.body()?.user?.username
+                                val image = response.body()?.user?.image
+                                val eml = response.body()?.user?.email
+                                val bio = response.body()?.user?.bio
                                 val intent = Intent(this@MainActivity, DashBoard::class.java)
                                 intent.putExtra("image", image)
                                 intent.putExtra("gmail", eml)
                                 intent.putExtra("userbio", bio)
                                 startActivity(intent)
                             } else {
-                                Toast.makeText(
-                                    this@MainActivity,
-                                    "Invalid user",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
+                                Toast.makeText(this@MainActivity, "Invalid user", Toast.LENGTH_LONG)
+                                    .show()
                             }
+
+
+/*
+                            if (username == "var123" && password == "123123123") {
+                                val intent = Intent(this@MainActivity, DashBoard::class.java)
+                                intent.putExtra("image", image)
+                                intent.putExtra("gmail", eml)
+                                intent.putExtra("userbio", bio)
+                                startActivity(intent)
+                            }
+                            else {
+                               Toast.makeText(this@MainActivity, "Invalid user", Toast.LENGTH_LONG).show()
+                            }
+*/
 
 
                         }
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        }
+    }
 
 
 }

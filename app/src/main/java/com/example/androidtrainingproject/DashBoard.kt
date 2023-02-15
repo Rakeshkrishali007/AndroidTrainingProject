@@ -6,37 +6,24 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.example.androidtrainingproject.databinding.ActivityDashBoardBinding
 
 class DashBoard : AppCompatActivity() {
 
+    lateinit var binding:ActivityDashBoardBinding
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding= ActivityDashBoardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val image=intent.getStringExtra("image")
+        val email=intent.getStringExtra("gmail")
+        val bio=intent.getStringExtra("bio")
 
-        setContentView(R.layout.activity_dash_board)
-//        val email=findViewById<TextView>(R.id.txt_email)
-//        val image=findViewById<ImageView>(R.id.profile_pic)
-        val bio=findViewById<TextView>(R.id.txt_bio_subheading)
-        val aboutHeading=findViewById<TextView>(R.id.txt_bio_head)
-        val img=intent.getStringExtra("image")
-        val em=intent.getStringExtra("gmail")
-        var  userBio=intent.getStringExtra("userbio")
-//        email.text=em.toString()
-
-/*        if (userBio == null) {
-            onVisibility(bio)
-            onVisibility(aboutHeading)
-        } else {
-            bio.text=userBio.toString()
-        }
-        */
-
-
-        userBio?.let {
-            onVisibility(bio)
-            onVisibility(aboutHeading)
-        }
-//        Glide.with(this).load(img).into(image);
+        binding.etEmail.text=email.toString()
+        binding.txtBioSubheading.text=bio
+      Glide.with(this).load(image).into(binding.imgProfilePic);
 
 
     }
