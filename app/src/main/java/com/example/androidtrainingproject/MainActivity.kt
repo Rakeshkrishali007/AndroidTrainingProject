@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                             call: Call<LogInResponse>,
                             response: retrofit2.Response<LogInResponse>
                         ) {
-                            if(response.code().equals("200"))
+                            if(response.code().toString().equals("200"))
                             {
                                 val username = response.body()?.user?.username
                                 val image = response.body()?.user?.image
