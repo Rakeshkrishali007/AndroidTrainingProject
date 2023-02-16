@@ -1,7 +1,9 @@
 package com.example.androidtrainingproject
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,99 +20,123 @@ import retrofit2.Callback
 
 
 private const val TAG = "MainActivity_d"
+
 @SuppressLint("StaticFieldLeak")
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding:ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
+    private val sharedPrefFile = "kotlinsharedpreference"
+
     lateinit var email: String
     lateinit var password: String
+
+    private val preferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)    // val getShared = getSharedPreferences("demo", MODE_PRIVATE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getInfo()
-        Log.d("success","main")
-        Log.d("test","main")
+
     }
+
 
     private fun getInfo() {
 
-        binding.press.setOnClickListener()
-        {
 
-           email = binding.etGmail.text.toString()
-            password = binding.etPassword.text.toString()
+       // val editor = shrd.edit()
+        if (userLogIn()) {
+            val intent = Intent(this@MainActivity, DashBoard::class.java)
+            /*intent.putExtra("email", getShared.getString("email", "null"))
+            intent.putExtra("image", getShared.getString("image", "null"))*/
+            startActivity(intent)
 
+        } else {
+            binding.btnLogin.setOnClickListener() {
 
-            Log.d("rakesh","${email}")
-            if (email.isEmpty()) {
+                email = binding.etGmail.text.toString()
+                password = binding.etPassword.text.toString()
+                if (isValid()) {
 
-                Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            else if(password.isEmpty())
-            {
-                Toast.makeText(this@MainActivity,"password required",Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-
-            else if(!Patterns.EMAIL_ADDRESS.matcher(email.toString().trim()).matches())
-            {
-                Toast.makeText(this@MainActivity,"invalid email", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            else {
-                RetrofitClient.logininterface.getData(
-                    LogInRequest(
-                        LoginRequestParams(
-                            email,
-                            password
+                    RetrofitClient.logininterface.getData(
+                        LogInRequest(
+                            LoginRequestParams(
+                                email, password
+                            )
                         )
-                    )
-                )
-                    .enqueue(object : Callback<LogInResponse> {
+                    ).enqueue(object : Callback<LogInResponse> {
                         @SuppressLint("SuspiciousIndentation")
                         override fun onResponse(
-                            call: Call<LogInResponse>,
-                            response: retrofit2.Response<LogInResponse>
+                            call: Call<LogInResponse>, response: retrofit2.Response<LogInResponse>
                         ) {
-                            if(response.code().toString().equals("200"))
-                            {
-                                val intent = Intent(this@MainActivity,DashBoard::class.java)
+                           // getShared.getString("email", "null")
+                            if (response.code().toString().equals("200")) {
+                                val intent = Intent(this@MainActivity, DashBoard::class.java)
                                 val username = response.body()?.user?.username
                                 val image = response.body()?.user?.image
                                 val eml = response.body()?.user?.email
                                 val bio = response.body()?.user?.bio
-                                val token =response.body()?.user?.token
-                               /* intent.putExtra("image", image)
-                                intent.putExtra("gmail", eml)
-                                intent.putExtra("userbio", bio)*/
-                                startActivity(intent)
-                                val user= User(bio.toString(),eml.toString(),image.toString(),token.toString(),username.toString())
-                                intent.putExtra("USER",user)
+                                val token = response.body()?.user?.token
+                               /* editor.putString("user", username.toString())
+                                editor.putString("email", eml.toString())
+                                editor.putString("image", image.toString())
+                                editor.apply()*/
+                                val user = User(
+                                    bio.toString(),
+                                    eml.toString(),
+                                    image.toString(),
+                                    token.toString(),
+                                    username.toString()
+                                )
+                                intent.putExtra("USER", user)
                                 startActivity(intent)
 
-                            }
-                            else
-                            {
-                                Toast.makeText(this@MainActivity,"Invalid user",Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(this@MainActivity, "Invalid user", Toast.LENGTH_LONG)
+                                    .show()
                             }
                         }
 
                         override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
 
                             Log.e("error", "bad")
-                            Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
                         }
-                    }
-                    )
+                    })
+
+                }
             }
-        }
 
         }
+    }
+
+    private fun userLogIn(): Boolean {
+      /*  val user = getShared.getString("user", "inValid")
+        val email = getShared.getString("email", "inValid")*/
+       /* if (user == "var123" && email == "var123@gmail.com") {
+            return true
+        }*/
+        return false
+    }
+
+    private fun isValid(): Boolean {
+        if (email.isEmpty()) {
+
+            Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
+            return false
+
+        } else if (password.isEmpty()) {
+            Toast.makeText(this@MainActivity, "password required", Toast.LENGTH_LONG).show()
+            return false
+
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email.toString().trim()).matches()) {
+            Toast.makeText(this@MainActivity, "invalid email", Toast.LENGTH_SHORT).show()
+            return false
+
+        }
+        return true
+    }
 
 
 }

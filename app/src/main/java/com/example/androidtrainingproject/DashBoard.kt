@@ -20,21 +20,25 @@ class DashBoard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding2 = ActivityDashBoardBinding.inflate(layoutInflater)
         setContentView(binding2.root)
+       /* val user=intent.getStringExtra("email")
+        val image=intent.getStringExtra("image")
+        binding2.etEmail.text=user.toString()
+        Glide.with(this).load(image).into(binding2.imgProfilePic)*/
 
-        val user= intent.getParcelableExtra<User>("USER")
-             binding2.etEmail.text= user?.email.toString()
-        if (user?.bio.toString() == null) {
+
+       /* val user= intent.getParcelableExtra<User>("USER")
+             binding2.etEmail.text= user?.email.toString()*/
+       /* if (user?.bio.toString() == null) {
 
             onVisibility(binding2.txtBioHead)
             onVisibility(binding2.txtBioSubheading)
         }
-        Glide.with(this).load(user?.image).into(binding2.imgProfilePic);
+        Glide.with(this).load(user?.image).into(binding2.imgProfilePic);*/
     }
 
-    private fun onVisibility(view: View) {
+    /*private fun onVisibility(view: View) {
         view.setVisibility(View.VISIBLE)
-
-    }
+    }*/
 
 
 }
