@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -23,9 +24,11 @@ private const val TAG = "MainActivity_d"
 
 @SuppressLint("StaticFieldLeak")
 
-var res: Boolean? = false
-
+public var res: Boolean? = false
+public  lateinit var shrd:SharedPreferences
+public lateinit var editor:Editor
 class MainActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityMainBinding
     lateinit var email: String
     lateinit var password: String
@@ -39,13 +42,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     private fun getInfo() {
-        val shrd = getSharedPreferences("demo", MODE_PRIVATE)
-        var editor = shrd.edit()
+         shrd = getSharedPreferences("demo", MODE_PRIVATE)
+         editor = shrd.edit()
 
         var res = shrd.getBoolean("ans", false)
-        if (res == true) {
+        if (res) {
 
             val intent = Intent(this@MainActivity, DashBoard::class.java)
             val user = User(
@@ -59,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
             startActivity(intent)
         } else {
+
             binding.btnLogin.setOnClickListener() {
 
                 email = binding.etGmail.text.toString()
@@ -136,6 +139,10 @@ class MainActivity : AppCompatActivity() {
 
         }
         return true
+    }
+   internal fun  deletePrefrence()
+    {
+
     }
 
 

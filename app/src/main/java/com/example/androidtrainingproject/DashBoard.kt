@@ -1,6 +1,7 @@
 package com.example.androidtrainingproject
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -20,15 +21,21 @@ class DashBoard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding2 = ActivityDashBoardBinding.inflate(layoutInflater)
         setContentView(binding2.root)
-
-        val user= intent.getParcelableExtra<User>("USER")
-             binding2.etEmail.text= user?.email.toString()
+        val user = intent.getParcelableExtra<User>("USER")
+        binding2.etEmail.text = user?.email.toString()
         if (user?.bio.toString() == null) {
 
             onVisibility(binding2.txtBioHead)
             onVisibility(binding2.txtBioSubheading)
         }
         Glide.with(this).load(user?.image).into(binding2.imgProfilePic);
+        binding2.btnLogout.setOnClickListener()
+        {
+            val intent=Intent(this@DashBoard,MainActivity::class.java)
+            res=false
+            editor.clear()
+            startActivity(intent)
+        }
     }
 
     private fun onVisibility(view: View) {
