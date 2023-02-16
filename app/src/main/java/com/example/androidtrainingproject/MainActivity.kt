@@ -23,15 +23,13 @@ private const val TAG = "MainActivity_d"
 
 @SuppressLint("StaticFieldLeak")
 
+var res: Boolean? = false
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    private val sharedPrefFile = "kotlinsharedpreference"
-
     lateinit var email: String
     lateinit var password: String
 
-    private val preferences: SharedPreferences = this.getSharedPreferences(sharedPrefFile,Context.MODE_PRIVATE)    // val getShared = getSharedPreferences("demo", MODE_PRIVATE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,15 +41,23 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun getInfo() {
+        val shrd = getSharedPreferences("demo", MODE_PRIVATE)
+        var editor = shrd.edit()
 
+        var res = shrd.getBoolean("ans", false)
+        if (res == true) {
 
-       // val editor = shrd.edit()
-        if (userLogIn()) {
             val intent = Intent(this@MainActivity, DashBoard::class.java)
-            /*intent.putExtra("email", getShared.getString("email", "null"))
-            intent.putExtra("image", getShared.getString("image", "null"))*/
-            startActivity(intent)
+            val user = User(
+                shrd.getString("bio", "no").toString(),
+                shrd.getString("email", "no").toString(),
+                shrd.getString("image", "no").toString(),
+                shrd.getString("bio", "no").toString(),
+                shrd.getString("user", "no").toString()
+            )
+            intent.putExtra("USER", user)
 
+            startActivity(intent)
         } else {
             binding.btnLogin.setOnClickListener() {
 
@@ -70,18 +76,21 @@ class MainActivity : AppCompatActivity() {
                         override fun onResponse(
                             call: Call<LogInResponse>, response: retrofit2.Response<LogInResponse>
                         ) {
-                           // getShared.getString("email", "null")
                             if (response.code().toString().equals("200")) {
+                                res = true
                                 val intent = Intent(this@MainActivity, DashBoard::class.java)
                                 val username = response.body()?.user?.username
                                 val image = response.body()?.user?.image
                                 val eml = response.body()?.user?.email
                                 val bio = response.body()?.user?.bio
                                 val token = response.body()?.user?.token
-                               /* editor.putString("user", username.toString())
+                                editor.putString("user", username.toString())
                                 editor.putString("email", eml.toString())
                                 editor.putString("image", image.toString())
-                                editor.apply()*/
+                                editor.putString("bio", bio.toString())
+                                editor.putString("token", token.toString())
+                                editor.putBoolean("ans", res!!)
+                                editor.apply()
                                 val user = User(
                                     bio.toString(),
                                     eml.toString(),
@@ -107,17 +116,8 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
-
         }
-    }
 
-    private fun userLogIn(): Boolean {
-      /*  val user = getShared.getString("user", "inValid")
-        val email = getShared.getString("email", "inValid")*/
-       /* if (user == "var123" && email == "var123@gmail.com") {
-            return true
-        }*/
-        return false
     }
 
     private fun isValid(): Boolean {

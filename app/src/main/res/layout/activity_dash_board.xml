@@ -33,6 +33,12 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp">
 
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="55dp"
+                />
             <ImageView
                 android:layout_width="150dp"
                 android:id="@+id/img_profile_Pic"
@@ -137,6 +143,8 @@
             android:layout_marginTop="2dp"
 
             android:textSize="20sp" />
+
+
 
 
         <View
