@@ -23,7 +23,6 @@ import retrofit2.Call
 import retrofit2.Callback
 
 
-
 @SuppressLint("StaticFieldLeak")
 public var res: Boolean? = false
 private lateinit var editor: Editor
@@ -48,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         editor = shrd.edit()
 
         binding.progressBar1.visibility = View.INVISIBLE
-        binding.progressBar2.visibility = View.INVISIBLE
         var res = shrd.getBoolean("ans", false)
         if (res) {
 
@@ -75,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 if (isValid()) {
                     if (isConnected()) {
                         binding.progressBar1.visibility = View.VISIBLE
-                        binding.progressBar2.visibility = View.VISIBLE
+
                         RetrofitClient.logininterface.getData(
                             LogInRequest(
                                 LoginRequestParams(
@@ -90,10 +88,8 @@ class MainActivity : AppCompatActivity() {
                             ) {
                                 if (response.code().toString().equals("200")) {
                                     res = true
-                                    /* binding.etGmail.visibility=View.INVISIBLE
-                                     binding.etPassword.visibility=View.INVISIBLE*/
                                     binding.progressBar1.visibility = View.VISIBLE
-                                    binding.progressBar2.visibility = View.VISIBLE
+
                                     val intent = Intent(this@MainActivity, DashBoard::class.java)
                                     val username = response.body()?.user?.username
                                     val image = response.body()?.user?.image
@@ -119,10 +115,8 @@ class MainActivity : AppCompatActivity() {
                                     finish()
 
                                 } else {
-                                    /* binding.etGmail.visibility=View.VISIBLE
-                                     binding.etPassword.visibility=View.VISIBLE*/
+
                                     binding.progressBar1.visibility = View.INVISIBLE
-                                    binding.progressBar2.visibility = View.INVISIBLE
 
                                     Toast.makeText(
                                         this@MainActivity, "Invalid user", Toast.LENGTH_LONG
@@ -144,12 +138,9 @@ class MainActivity : AppCompatActivity() {
                         snack.show()
                     }
 
-
                 } else {
-                    binding.etGmail.visibility = View.VISIBLE
-                    binding.etPassword.visibility = View.VISIBLE
+
                     binding.progressBar1.visibility = View.INVISIBLE
-                    binding.progressBar2.visibility = View.INVISIBLE
                 }
             }
         }
@@ -163,7 +154,6 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork ?: return false
-            // Representation of the capabilities of an active network.
             val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
 
             return when {
