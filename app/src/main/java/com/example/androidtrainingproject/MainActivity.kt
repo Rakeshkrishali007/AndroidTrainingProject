@@ -3,28 +3,28 @@ package com.example.androidtrainingproject
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
-import android.widget.Toolbar
 import com.example.androidtrainingproject.databinding.ActivityMainBinding
 import com.example.androidtrainingproject.model.request.LogInRequest
 import com.example.androidtrainingproject.model.response.LogInResponse
 import com.example.androidtrainingproject.model.LoginRequestParams
 import com.example.androidtrainingproject.model.User
-
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 
 
-//private const val TAG = "MainActivity_d"
 
 @SuppressLint("StaticFieldLeak")
-
 public var res: Boolean? = false
 private lateinit var editor: Editor
 
@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         editor = shrd.edit()
 
+        binding.progressBar1.visibility = View.INVISIBLE
+        binding.progressBar2.visibility = View.INVISIBLE
         var res = shrd.getBoolean("ans", false)
         if (res) {
 
@@ -61,65 +63,127 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("USER", user)
 
             startActivity(intent)
+            finish()
         } else {
 
             binding.btnLogin.setOnClickListener() {
 
+
                 email = binding.etGmail.text.toString()
                 password = binding.etPassword.text.toString()
+
                 if (isValid()) {
-
-                    RetrofitClient.logininterface.getData(
-                        LogInRequest(
-                            LoginRequestParams(
-                                email, password
-                            )
-                        )
-                    ).enqueue(object : Callback<LogInResponse> {
-                        @SuppressLint("SuspiciousIndentation")
-                        override fun onResponse(
-                            call: Call<LogInResponse>, response: retrofit2.Response<LogInResponse>
-                        ) {
-                            if (response.code().toString().equals("200")) {
-                                res = true
-                                val intent = Intent(this@MainActivity, DashBoard::class.java)
-                                val username = response.body()?.user?.username
-                                val image = response.body()?.user?.image
-                                val eml = response.body()?.user?.email
-                                val bio = response.body()?.user?.bio
-                                val token = response.body()?.user?.token
-                                editor.putString("user", username.toString())
-                                editor.putString("email", eml.toString())
-                                editor.putString("image", image.toString())
-                                editor.putString("bio", bio.toString())
-                                editor.putString("token", token.toString())
-                                editor.putBoolean("ans", res!!)
-                                editor.apply()
-                                val user = User(
-                                    bio.toString(),
-                                    eml.toString(),
-                                    image.toString(),
-                                    token.toString(),
-                                    username.toString()
+                    if (isConnected()) {
+                        binding.progressBar1.visibility = View.VISIBLE
+                        binding.progressBar2.visibility = View.VISIBLE
+                        RetrofitClient.logininterface.getData(
+                            LogInRequest(
+                                LoginRequestParams(
+                                    email, password
                                 )
-                                intent.putExtra("USER", user)
-                                startActivity(intent)
+                            )
+                        ).enqueue(object : Callback<LogInResponse> {
+                            @SuppressLint("SuspiciousIndentation")
+                            override fun onResponse(
+                                call: Call<LogInResponse>,
+                                response: retrofit2.Response<LogInResponse>
+                            ) {
+                                if (response.code().toString().equals("200")) {
+                                    res = true
+                                    /* binding.etGmail.visibility=View.INVISIBLE
+                                     binding.etPassword.visibility=View.INVISIBLE*/
+                                    binding.progressBar1.visibility = View.VISIBLE
+                                    binding.progressBar2.visibility = View.VISIBLE
+                                    val intent = Intent(this@MainActivity, DashBoard::class.java)
+                                    val username = response.body()?.user?.username
+                                    val image = response.body()?.user?.image
+                                    val eml = response.body()?.user?.email
+                                    val bio = response.body()?.user?.bio
+                                    val token = response.body()?.user?.token
+                                    editor.putString("user", username.toString())
+                                    editor.putString("email", eml.toString())
+                                    editor.putString("image", image.toString())
+                                    editor.putString("bio", bio.toString())
+                                    editor.putString("token", token.toString())
+                                    editor.putBoolean("ans", res)
+                                    editor.apply()
+                                    val user = User(
+                                        bio.toString(),
+                                        eml.toString(),
+                                        image.toString(),
+                                        token.toString(),
+                                        username.toString()
+                                    )
+                                    intent.putExtra("USER", user)
+                                    startActivity(intent)
+                                    finish()
 
-                            } else {
-                                Toast.makeText(this@MainActivity, "Invalid user", Toast.LENGTH_LONG)
+                                } else {
+                                    /* binding.etGmail.visibility=View.VISIBLE
+                                     binding.etPassword.visibility=View.VISIBLE*/
+                                    binding.progressBar1.visibility = View.INVISIBLE
+                                    binding.progressBar2.visibility = View.INVISIBLE
+
+                                    Toast.makeText(
+                                        this@MainActivity, "Invalid user", Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+
+                            override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
+
+                                Log.e("error", "bad")
+                                Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT)
                                     .show()
                             }
-                        }
+                        })
 
-                        override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
+                    } else {
+                        val snack =
+                            Snackbar.make(it, "Not connected to Internet", Snackbar.LENGTH_LONG)
+                        snack.show()
+                    }
 
-                            Log.e("error", "bad")
-                            Toast.makeText(this@MainActivity, "error", Toast.LENGTH_SHORT).show()
-                        }
-                    })
 
+                } else {
+                    binding.etGmail.visibility = View.VISIBLE
+                    binding.etPassword.visibility = View.VISIBLE
+                    binding.progressBar1.visibility = View.INVISIBLE
+                    binding.progressBar2.visibility = View.INVISIBLE
                 }
             }
+        }
+
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    private fun isConnected(): Boolean {
+        val connectivityManager =
+            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            // Representation of the capabilities of an active network.
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+            return when {
+
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                    true
+                }
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                    true
+                }
+
+                else -> {
+                    false
+                }
+            }
+        } else {
+
+            @Suppress("DEPRECATION") val networkInfo =
+                connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION") return networkInfo.isConnected
         }
 
     }
@@ -138,6 +202,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "password required", Toast.LENGTH_LONG).show()
             return false
 
+        } else if (password.length < 6) {
+            Toast.makeText(this@MainActivity, "Minimum password length 6", Toast.LENGTH_SHORT)
+                .show()
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email.toString().trim()).matches()) {
             Toast.makeText(this@MainActivity, "invalid email", Toast.LENGTH_SHORT).show()
             return false

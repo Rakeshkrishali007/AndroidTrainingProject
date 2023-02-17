@@ -10,11 +10,12 @@ import android.os.Looper
 import com.example.androidtrainingproject.model.User
 
 
-public  lateinit var shrd:SharedPreferences
+public lateinit var shrd: SharedPreferences
+
 class Splash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        shrd= getSharedPreferences("demo", MODE_PRIVATE)
+        shrd = getSharedPreferences("demo", MODE_PRIVATE)
         setContentView(R.layout.activity_splash)
 
 
@@ -28,18 +29,17 @@ class Splash : AppCompatActivity() {
                 shrd.getString("user", "no").toString()
             )
 
-            val intent=Intent(this@Splash, DashBoard::class.java)
+            val intent = Intent(this@Splash, DashBoard::class.java)
             Handler(Looper.getMainLooper()).postDelayed({
                 intent.putExtra("USER", user)
                 startActivity(intent)
+                finish()
             }, 1000)
 
-        }
-        else
-        {
-            val intent=Intent(this@Splash,MainActivity::class.java)
-            Handler(Looper.getMainLooper()).postDelayed({
-              startActivity(intent)
+        } else {
+            val intent = Intent(this@Splash, MainActivity::class.java)
+            Handler(Looper.getMainLooper()).postDelayed({ startActivity(intent)
+                finish()
             }, 1000)
 
         }
