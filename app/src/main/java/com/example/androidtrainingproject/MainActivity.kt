@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import android.widget.Toolbar
 import com.example.androidtrainingproject.databinding.ActivityMainBinding
 import com.example.androidtrainingproject.model.request.LogInRequest
 import com.example.androidtrainingproject.model.response.LogInResponse
@@ -25,8 +26,9 @@ private const val TAG = "MainActivity_d"
 @SuppressLint("StaticFieldLeak")
 
 public var res: Boolean? = false
-public  lateinit var shrd:SharedPreferences
-public lateinit var editor:Editor
+public lateinit var shrd: SharedPreferences
+public lateinit var editor: Editor
+
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
@@ -43,8 +45,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getInfo() {
-         shrd = getSharedPreferences("demo", MODE_PRIVATE)
-         editor = shrd.edit()
+        shrd = getSharedPreferences("demo", MODE_PRIVATE)
+        editor = shrd.edit()
 
         var res = shrd.getBoolean("ans", false)
         if (res) {
@@ -129,7 +131,12 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
             return false
 
-        } else if (password.isEmpty()) {
+        }
+        else if(email.isEmpty()&&password.isEmpty())
+        {
+            Toast.makeText(this@MainActivity,"Email & Password required",Toast.LENGTH_SHORT).show()
+        }
+        else if (password.isEmpty()) {
             Toast.makeText(this@MainActivity, "password required", Toast.LENGTH_LONG).show()
             return false
 
@@ -140,8 +147,8 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
-   internal fun  deletePrefrence()
-    {
+
+    internal fun deletePrefrence() {
 
     }
 
