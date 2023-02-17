@@ -28,8 +28,8 @@ class DashBoard : AppCompatActivity() {
         binding2.btnLogout.setOnClickListener()
         {
             res = false
+            val editor= shrd.edit()
             editor.clear().commit()
-            Log.d("res", "${res}")
             Toast.makeText(this@DashBoard, "User Loged out", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this@DashBoard, MainActivity::class.java))
         }

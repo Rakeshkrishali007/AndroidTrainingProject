@@ -21,13 +21,12 @@ import retrofit2.Call
 import retrofit2.Callback
 
 
-private const val TAG = "MainActivity_d"
+//private const val TAG = "MainActivity_d"
 
 @SuppressLint("StaticFieldLeak")
 
 public var res: Boolean? = false
-public lateinit var shrd: SharedPreferences
-public lateinit var editor: Editor
+private lateinit var editor: Editor
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getInfo() {
-        shrd = getSharedPreferences("demo", MODE_PRIVATE)
+
         editor = shrd.edit()
 
         var res = shrd.getBoolean("ans", false)
@@ -126,17 +125,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isValid(): Boolean {
-        if (email.isEmpty()) {
+        if (email.isEmpty() && password.isEmpty()) {
+            Toast.makeText(this@MainActivity, "Email & Password required", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        } else if (email.isEmpty()) {
 
             Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show()
             return false
 
-        }
-        else if(email.isEmpty()&&password.isEmpty())
-        {
-            Toast.makeText(this@MainActivity,"Email & Password required",Toast.LENGTH_SHORT).show()
-        }
-        else if (password.isEmpty()) {
+        } else if (password.isEmpty()) {
             Toast.makeText(this@MainActivity, "password required", Toast.LENGTH_LONG).show()
             return false
 
@@ -146,10 +144,6 @@ class MainActivity : AppCompatActivity() {
 
         }
         return true
-    }
-
-    internal fun deletePrefrence() {
-
     }
 
 
