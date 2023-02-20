@@ -1,12 +1,8 @@
 package com.example.androidtrainingproject
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences.Editor
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -32,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var email: String
     lateinit var password: String
+    lateinit var internet:InternetConnection
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +68,8 @@ class MainActivity : AppCompatActivity() {
                 password = binding.etPassword.text.toString()
 
                 if (isValid()) {
-                    if (isConnected()) {
+                    internet=InternetConnection()
+                    if (internet.isConntected(this)) {
                         binding.progressBar1.visibility = View.VISIBLE
 
                         RetrofitClient.logininterface.getData(
@@ -147,36 +145,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("ObsoleteSdkInt")
-    private fun isConnected(): Boolean {
-        val connectivityManager =
-            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network = connectivityManager.activeNetwork ?: return false
-            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-
-            return when {
-
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                    true
-                }
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                    true
-                }
-
-                else -> {
-                    false
-                }
-            }
-        } else {
-
-            @Suppress("DEPRECATION") val networkInfo =
-                connectivityManager.activeNetworkInfo ?: return false
-            @Suppress("DEPRECATION") return networkInfo.isConnected
-        }
-
-    }
 
     private fun isValid(): Boolean {
         if (email.isEmpty() && password.isEmpty()) {
@@ -195,6 +163,7 @@ class MainActivity : AppCompatActivity() {
         } else if (password.length < 6) {
             Toast.makeText(this@MainActivity, "Minimum password length 6", Toast.LENGTH_SHORT)
                 .show()
+            return false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email.toString().trim()).matches()) {
             Toast.makeText(this@MainActivity, "invalid email", Toast.LENGTH_SHORT).show()
             return false
