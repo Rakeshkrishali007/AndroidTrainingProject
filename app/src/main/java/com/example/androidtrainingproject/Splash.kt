@@ -20,7 +20,8 @@ class Splash : AppCompatActivity() {
 
 
         val user = shrd.getString("user", "null")
-        if (user == "var123") {
+
+        if (user=="var123") {
             val user = User(
                 shrd.getString("bio", "no").toString(),
                 shrd.getString("email", "no").toString(),

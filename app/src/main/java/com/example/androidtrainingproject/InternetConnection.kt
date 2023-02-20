@@ -9,9 +9,9 @@ import android.os.Build
 class InternetConnection() {
 
     //@SuppressLint("ObsoleteSdkInt")
-    private fun isConnected(context: Context): Boolean {
+    public fun isConnected(context: Context): Boolean {
         val connectivityManager =
-            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork ?: return false

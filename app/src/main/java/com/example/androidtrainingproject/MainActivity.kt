@@ -1,6 +1,7 @@
 package com.example.androidtrainingproject
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences.Editor
 import androidx.appcompat.app.AppCompatActivity
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (isValid()) {
                     internet=InternetConnection()
-                    if (internet.isConntected(this)) {
+                    if (internet.isConnected(this)) {
                         binding.progressBar1.visibility = View.VISIBLE
 
                         RetrofitClient.logininterface.getData(
