@@ -27,7 +27,7 @@ class DashBoard : AppCompatActivity() {
         Glide.with(this).load(user?.image).into(binding2.imgProfilePic);
         binding2.btnLogout.setOnClickListener()
         {
-            res = false
+            res= false
             val editor = shrd.edit()
             editor.clear().apply()
             Toast.makeText(this@DashBoard, "User Loged out", Toast.LENGTH_SHORT).show()

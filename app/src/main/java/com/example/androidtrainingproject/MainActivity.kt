@@ -21,7 +21,7 @@ import retrofit2.Callback
 
 
 @SuppressLint("StaticFieldLeak")
-public var res: Boolean? = false
+//public var res: Boolean? = false
 private lateinit var editor: Editor
 
 class MainActivity : AppCompatActivity() {
@@ -45,22 +45,8 @@ class MainActivity : AppCompatActivity() {
         editor = shrd.edit()
 
         binding.progressBar1.visibility = View.INVISIBLE
-        var res = shrd.getBoolean("ans", false)
-        if (res) {
+     //  var res = shrd.getBoolean("ans", false)
 
-            val intent = Intent(this@MainActivity, DashBoard::class.java)
-            val user = User(
-                shrd.getString("bio", "no").toString(),
-                shrd.getString("email", "no").toString(),
-                shrd.getString("image", "no").toString(),
-                shrd.getString("bio", "no").toString(),
-                shrd.getString("user", "no").toString()
-            )
-            intent.putExtra("USER", user)
-
-            startActivity(intent)
-            finish()
-        } else {
 
             binding.btnLogin.setOnClickListener() {
 
@@ -100,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                                     editor.putString("image", image.toString())
                                     editor.putString("bio", bio.toString())
                                     editor.putString("token", token.toString())
-                                    editor.putBoolean("ans", res)
+                                   // editor.putBoolean("ans", res)
                                     editor.apply()
                                     val user = User(
                                         bio.toString(),
@@ -142,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                     binding.progressBar1.visibility = View.INVISIBLE
                 }
             }
-        }
+
 
     }
 

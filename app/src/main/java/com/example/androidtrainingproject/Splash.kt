@@ -19,9 +19,9 @@ class Splash : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
 
-        val user = shrd.getString("user", "null")
+       // val user = shrd.getString("user", "null")
 
-        if (user=="var123") {
+        if (res) {
             val user = User(
                 shrd.getString("bio", "no").toString(),
                 shrd.getString("email", "no").toString(),
